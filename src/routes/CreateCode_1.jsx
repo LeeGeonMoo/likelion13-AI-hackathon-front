@@ -91,7 +91,6 @@ const CreateCode_1 = () => {
           </div>
           <div className="frame">
             <div className="div-wrapper">
-              <div className="text-wrapper">📤 출력</div>
             </div>
             <div className="div">
               <p className="p">{challenge.output_example}</p>
@@ -103,14 +102,6 @@ const CreateCode_1 = () => {
             </div>
             <div className="div">
               <p className="p">난이도: {challenge.challenge_level}</p>
-            </div>
-          </div>
-          <div className="frame">
-            <div className="div-wrapper">
-              <div className="text-wrapper">📥 예제 입력 1</div>
-            </div>
-            <div className="div">
-              <p className="p">4</p>
             </div>
           </div>
           <button onClick={() => navigate(`/create-code/${challenge.id}`)}>

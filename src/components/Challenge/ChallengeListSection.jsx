@@ -56,7 +56,7 @@ export default function ChallengeListSection() {
           className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full cursor-pointer"
           onClick={() => {
             if (challenge.challenge_type === "코드 생성" || challenge.challenge_type === "CODE") {
-              navigate(`/create-code`);
+              navigate(`/create-code/${challenge.id}`);
             } else {
               navigate(`/create-image/${challenge.id}`);
             }

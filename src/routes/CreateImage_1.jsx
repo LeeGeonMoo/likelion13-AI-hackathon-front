@@ -49,7 +49,8 @@ const CreateImage_1 = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           prompt: promptText,
-          // 필요시 client_id 등 추가
+          challenge_id: id,
+          day_of_challenge: 1,
         }),
       });
       if (!res.ok) throw new Error("이미지 생성 실패");
@@ -150,9 +151,7 @@ const CreateImage_1 = () => {
         <div className="column-3">
           {!isTestExecuted ? (
             <div className="column-3-content">
-              '테스트 실행' 버튼을 눌러
-              <br />
-              AI가 생성한 이미지를 확인하세요.
+              '테스트 실행' 버튼을 눌러<br />AI가 생성한 이미지를 확인하세요.
             </div>
           ) : imageLoading ? (
             <div className="column-3-content">이미지 생성 중...</div>
