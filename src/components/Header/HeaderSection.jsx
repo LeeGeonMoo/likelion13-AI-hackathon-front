@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import React from "react";
+import user from "../../dummy/user";
 
 export default function HeaderSection() {
   return (
@@ -34,16 +35,10 @@ export default function HeaderSection() {
         <CardContent className="flex flex-col items-start gap-2 p-0 w-full">
           <div className="flex flex-col items-start w-full">
             <h2 className="mt-[-1.00px] [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-white text-[32px] tracking-[0] leading-[normal] whitespace-nowrap">
-              이름
+              {user.nickname}
             </h2>
-          </div>
-
-          <div className="flex flex-col items-start w-full opacity-90">
-            <p className="self-stretch [font-family:'Noto_Sans_KR-DemiLight',Helvetica] font-light text-white text-base leading-[normal] mt-[-1.00px] tracking-[0]">
-              코딩 랭킹. 10
-            </p>
-            <p className="self-stretch [font-family:'Noto_Sans_KR-DemiLight',Helvetica] font-light text-white text-base tracking-[0] leading-[normal]">
-              이미지 인기 순위. 943
+            <p className="[font-family:'Noto_Sans_KR-DemiLight',Helvetica] font-light text-white text-base leading-[normal] tracking-[0]">
+              {user.email}
             </p>
           </div>
         </CardContent>
