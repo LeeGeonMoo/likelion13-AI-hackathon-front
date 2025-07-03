@@ -22,7 +22,7 @@ export default function HeaderSection() {
             </p>
           </div>
 
-          <Button className="mt-2 bg-white text-[#1971c2] hover:bg-white/90 hover:text-[#1971c2] rounded-lg px-6 py-0 h-auto">
+          <Button className="mt-2 text-[#1971c2]  hover:text-[#1971c2] rounded-lg px-6 py-0 hover:scale-105 h-auto">
             <span className="[font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-base tracking-[0] leading-[normal] whitespace-nowrap">
               지금 도전하기 →
             </span>
