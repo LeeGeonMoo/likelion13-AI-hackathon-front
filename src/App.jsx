@@ -8,7 +8,7 @@ function App() {
       <div className="template-container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/create-image-1" element={<CreateImage_1 />} />
+          <Route path="/create-image/:id" element={<CreateImage_1 />} />
         </Routes>
       </div>
     </BrowserRouter>

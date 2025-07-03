@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -9,12 +10,15 @@ import React from "react";
 import challenges from "../../dummy/challenges";
 
 export default function ChallengeListSection() {
+  const navigate = useNavigate();
+
   return (
     <div className="w-full grid grid-cols-3 gap-6">
       {challenges.map((challenge) => (
         <Card
           key={challenge.id}
-          className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full"
+          className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full cursor-pointer"
+          onClick={() => navigate(`/create-image/${challenge.id}`)}
         >
           <CardHeader className="p-0 pb-3">
             <div className="flex items-center justify-between w-full">
