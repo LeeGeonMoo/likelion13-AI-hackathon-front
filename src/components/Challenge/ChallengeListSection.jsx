@@ -34,7 +34,13 @@ export default function ChallengeListSection() {
         <Card
           key={challenge.id}
           className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full cursor-pointer"
-          onClick={() => navigate(`/create-image/${challenge.id}`)}
+          onClick={() => {
+            if (challenge.challenge_type === "코드 생성") {
+              navigate(`/create-code`);
+            } else {
+              navigate(`/create-image/${challenge.id}`);
+            }
+          }}
         >
           <CardHeader className="p-0 pb-3">
             <div className="flex items-center justify-between w-full">
