@@ -1,22 +1,69 @@
 import "../App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import challenges from "../dummy/challenges";
+// import challenges from "../dummy/challenges";
 import { useNavigate } from "react-router-dom";
 
 const CreateImage_1 = () => {
   const { id } = useParams();
-  const challenge = challenges.find((c) => String(c.id) === id);
-
-  if (!challenge) return <div>문제를 찾을 수 없습니다.</div>;
-
+  const [challenge, setChallenge] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [isTestExecuted, setIsTestExecuted] = useState(false);
   const [promptText, setPromptText] = useState("");
   const [likedImages, setLikedImages] = useState(new Set());
   const navigate = useNavigate();
+  const [imageLoading, setImageLoading] = useState(false);
+  const [imageError, setImageError] = useState(null);
+  const [generatedImage, setGeneratedImage] = useState(null);
 
-  const handleTestExecution = () => {
+  useEffect(() => {
+    const fetchChallenge = async () => {
+      try {
+        const res = await fetch(`http://localhost:8000/api/challenges/${id}/`);
+        if (!res.ok) throw new Error("Failed to fetch challenge");
+        const data = await res.json();
+        setChallenge(data);
+        console.log("challenge data:", data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChallenge();
+  }, [id]);
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error}</div>;
+  if (!challenge) return <div>문제를 찾을 수 없습니다.</div>;
+
+  const handleTestExecution = async () => {
+    setImageLoading(true);
+    setImageError(null);
+    setGeneratedImage(null);
     setIsTestExecuted(true);
+    try {
+      const res = await fetch("http://localhost:8000/api/generate-image/", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          prompt: promptText,
+          // 필요시 client_id 등 추가
+        }),
+      });
+      if (!res.ok) throw new Error("이미지 생성 실패");
+      const data = await res.json();
+      if (data.image_base64) {
+        setGeneratedImage(data.image_base64);
+      } else {
+        setImageError(data.error || "이미지 생성 실패");
+      }
+    } catch (err) {
+      setImageError(err.message);
+    } finally {
+      setImageLoading(false);
+    }
   };
 
   const handleReset = () => {
@@ -75,7 +122,7 @@ const CreateImage_1 = () => {
           </div>
           <div className="frame">
             <div className="div">
-              <p className="p">{challenge.description}</p>
+              <p className="p">{challenge.description || challenge.problem_statement}</p>
             </div>
           </div>
         </div>
@@ -107,13 +154,19 @@ const CreateImage_1 = () => {
               <br />
               AI가 생성한 이미지를 확인하세요.
             </div>
-          ) : (
-            /* 이건 따로 컴포넌트로 빼가지고.. prop으로 넘겨서... data를 받았을 때랑 안받았을때랑 로딩 중 두가지 경우로 나눠서 처리해야함 */
+          ) : imageLoading ? (
+            <div className="column-3-content">이미지 생성 중...</div>
+          ) : imageError ? (
+            <div className="column-3-content" style={{color: 'red'}}>에러: {imageError}</div>
+          ) : generatedImage ? (
             <>
               <div className="image-section">
-                <div className="image-placeholder">
-                  AI 생성 이미지가 여기에 표시됩니다
-                </div>
+                <img
+                  src={`data:image/png;base64,${generatedImage}`}
+                  alt="AI 생성 이미지"
+                  className="image-placeholder"
+                  style={{maxWidth: '100%', maxHeight: '300px'}}
+                />
               </div>
               <div className="button-section">
                 <div className="Frame54">
@@ -124,6 +177,8 @@ const CreateImage_1 = () => {
                 </div>
               </div>
             </>
+          ) : (
+            <div className="column-3-content">이미지 없음</div>
           )}
         </div>
       </div>

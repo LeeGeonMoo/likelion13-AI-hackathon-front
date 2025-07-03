@@ -11,7 +11,7 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/create-image/:id" element={<CreateImage_1 />} />
-          <Route path="/create-code" element={<CreateCode_1 />} />
+          <Route path="/create-code/:id" element={<CreateCode_1 />} />
         </Routes>
       </div>
     </BrowserRouter>
