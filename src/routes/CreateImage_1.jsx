@@ -91,12 +91,12 @@ const CreateImage_1 = () => {
 
   // 인기 이미지 데이터 (10개)
   const popularImages = [
-    { id: 1, title: "인기 이미지 1" },
-    { id: 2, title: "인기 이미지 2" },
-    { id: 3, title: "인기 이미지 3" },
-    { id: 4, title: "인기 이미지 4" },
-    { id: 5, title: "인기 이미지 5" },
-    { id: 6, title: "인기 이미지 6" },
+    { id: 1, title: "http://127.0.0.1:8000/media/generated_image_1751571539.png" },
+    { id: 2, title: "http://127.0.0.1:8000/media/generated_image_1751567853.png" },
+    { id: 3, title: "http://127.0.0.1:8000/media/generated_image_1751567953.png" },
+    { id: 4, title: "http://127.0.0.1:8000/media/generated_image_1751575022.png" },
+    { id: 5, title: "http://127.0.0.1:8000/media/generated_image_1751575059.png" },
+    { id: 6, title: "http://127.0.0.1:8000/media/generated_image_1751583762.png" },
     { id: 7, title: "인기 이미지 7" },
     { id: 8, title: "인기 이미지 8" },
     { id: 9, title: "인기 이미지 9" },
@@ -189,7 +189,7 @@ const CreateImage_1 = () => {
           <div className="popular-images-container">
             {popularImages.map((image) => (
               <div key={image.id} className="popular-image-item">
-                <div className="popular-image-placeholder">{image.title}</div>
+                <img src={image.title} alt="인기 이미지" className="popular-image-placeholder" />
                 <div
                   className={`heart-icon ${
                     likedImages.has(image.id) ? "liked" : ""

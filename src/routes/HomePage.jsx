@@ -1,5 +1,5 @@
 import React from "react";
-import ChallengeListSection from "../components/challenge/ChallengeListSection";
+import ChallengeListSection from "../components/Challenge/ChallengeListSection";
 import HeaderSection from "../components/Header/HeaderSection";
 // import UserProfileSection from "../components/User/UserProfileSection";
 import "../homepage_prompteer_style.css";
