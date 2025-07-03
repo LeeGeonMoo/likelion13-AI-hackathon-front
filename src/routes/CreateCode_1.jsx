@@ -180,9 +180,23 @@ const CreateCode_1 = () => {
             <div className="result-section">
               <div className="result-label">실행 결과</div>
               <div className="result-content">
-                {isSubmitted
-                  ? "제출 완료"
-                  : "실행 버튼을 눌러 결과를 확인하세요."}
+                {result ? (
+                  <pre
+                    style={{
+                      background: "#f5f5f5",
+                      padding: "16px",
+                      borderRadius: "8px",
+                      whiteSpace: "pre-wrap",
+                      wordBreak: "break-all",
+                    }}
+                  >
+                    {result}
+                  </pre>
+                ) : isSubmitted ? (
+                  "제출 완료"
+                ) : (
+                  "실행 버튼을 눌러 결과를 확인하세요."
+                )}
               </div>
             </div>
             {!isSubmitted && (
