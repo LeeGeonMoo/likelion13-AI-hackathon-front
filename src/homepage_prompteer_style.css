@@ -1,0 +1,57 @@
+.homepage-prompteer {
+  width: 1440px;
+  height: 1178px;
+  padding-bottom: 396px;
+  left: 0px;
+  top: 61px;
+  position: absolute;
+  background: #f8f9fa;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 32px;
+  display: inline-flex;
+}
+
+/* 본문 wrapper */
+.homepage-prompteer-main {
+  width: 1248px;
+  max-width: 1248px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* 카드 레이아웃 */
+.homepage-prompteer-row {
+  display: flex;
+  gap: 20px;
+  width: 1199px;
+}
+
+/* 챌린지/프로필 카드 */
+.prompteer-challenge-card {
+  width: 792px;
+  padding: 48px;
+  background: linear-gradient(90deg, #228be6 100%);
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prompteer-profile-card {
+  flex: 1 1 0;
+  padding: 48px;
+  background: linear-gradient(90deg, #228be6 100%);
+  border-radius: 12px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  justify-content: center;
+}
+
+/* 기타 카드, 버튼 등 추가 스타일 필요시 여기에... */

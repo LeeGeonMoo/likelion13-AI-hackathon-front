@@ -1,3 +1,4 @@
+
 html {
   background-color: #f8f9fa;
 }
@@ -35,7 +36,10 @@ body {
   border-right: 1px solid #e9ecef;
 }
 
-.column-1 > * {
+.column-1 
+
+
+* {
   margin-bottom: 20px;
 }
 
@@ -302,4 +306,28 @@ body {
 
 .header .frame {
   align-items: flex-start;
+}
+
+.homepage-content-container {
+  /* 흐름: 세로 (Flexbox, column 방향) */
+  display: flex;
+  flex-direction: column;
+
+  /* 너비: 고정, 최대 너비 */
+  width: 1248px;
+  max-width: 1248px;
+
+  /* 높이: 허그(Hug) -> 내용물에 따라 자동 조절 */
+  height: auto;
+  min-height: 1001px; /* 피그마의 계산된 높이를 최소 높이로 설정 */
+
+  /* 패딩: 모든 방향 24px */
+  padding: 24px;
+
+  /* 간격: 자식 요소들 사이의 간격 20px */
+  gap: 20px;
+
+  /* CSS box-sizing 기본값 */
+  box-sizing: border-box;
+
 }
