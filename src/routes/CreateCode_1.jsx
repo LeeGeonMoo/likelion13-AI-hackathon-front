@@ -9,6 +9,11 @@ const CreateCode_1 = () => {
   const [challenge, setChallenge] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [prompt, setPrompt] = useState("");
+  const [result, setResult] = useState("");
+  const [apiLoading, setApiLoading] = useState(false);
+  const [token, setToken] = useState("");
+  const [currentCode, setCurrentCode] = useState("");
 
   const handleHeaderClick = () => {
     navigate("/");
@@ -20,6 +25,35 @@ const CreateCode_1 = () => {
 
   const handleRetry = () => {
     setIsSubmitted(false);
+  };
+
+  const handleRun = async () => {
+    setApiLoading(true);
+    setResult("");
+    try {
+      const response = await fetch("http://localhost:8000/api/generate-code/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          challenge_id: challenge.id,
+          prompt: prompt,
+          current_code: currentCode,
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        setResult("에러: " + (errorData.detail || response.status));
+        setApiLoading(false);
+        return;
+      }
+      const data = await response.json();
+      setResult(data.new_code);
+    } catch (error) {
+      setResult("에러가 발생했습니다.");
+    }
+    setApiLoading(false);
   };
 
   useEffect(() => {
@@ -57,11 +91,19 @@ const CreateCode_1 = () => {
           <div className="challenge-info">
             <div className="info-item">
               <span className="info-label">시간제한</span>
-              <span className="info-value">{challenge.time_limit_ms ? `${challenge.time_limit_ms/1000}초` : "-"}</span>
+              <span className="info-value">
+                {challenge.time_limit_ms
+                  ? `${challenge.time_limit_ms / 1000}초`
+                  : "-"}
+              </span>
             </div>
             <div className="info-item">
               <span className="info-label">메모리 제한</span>
-              <span className="info-value">{challenge.memory_limit_mb ? `${challenge.memory_limit_mb} MB` : "-"}</span>
+              <span className="info-value">
+                {challenge.memory_limit_mb
+                  ? `${challenge.memory_limit_mb} MB`
+                  : "-"}
+              </span>
             </div>
             <div className="info-item">
               <span className="info-label">정답비율</span>
@@ -90,8 +132,7 @@ const CreateCode_1 = () => {
             </div>
           </div>
           <div className="frame">
-            <div className="div-wrapper">
-            </div>
+            <div className="div-wrapper"></div>
             <div className="div">
               <p className="p">{challenge.output_example}</p>
             </div>
@@ -116,13 +157,21 @@ const CreateCode_1 = () => {
                   className="prompt-input"
                   placeholder="프롬프트를 입력하세요..."
                   disabled={isSubmitted}
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
                 />
               </div>
             </div>
             {!isSubmitted && (
               <div className="button-section">
                 <div className="Frame55">
-                  <div className="button-text">실행(예제 테스트)</div>
+                  <div
+                    className="button-text"
+                    onClick={handleRun}
+                    disabled={apiLoading}
+                  >
+                    {apiLoading ? "실행 중..." : "실행(예제 테스트)"}
+                  </div>
                 </div>
               </div>
             )}
