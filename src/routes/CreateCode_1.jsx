@@ -1,10 +1,14 @@
 import "../App.css";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
 
 const CreateCode_1 = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [challenge, setChallenge] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const handleHeaderClick = () => {
     navigate("/");
@@ -18,6 +22,26 @@ const CreateCode_1 = () => {
     setIsSubmitted(false);
   };
 
+  useEffect(() => {
+    const fetchChallenge = async () => {
+      try {
+        const res = await fetch(`http://localhost:8000/api/challenges/${id}/`);
+        if (!res.ok) throw new Error("Failed to fetch challenge");
+        const data = await res.json();
+        setChallenge(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChallenge();
+  }, [id]);
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error}</div>;
+  if (!challenge) return <div>문제를 찾을 수 없습니다.</div>;
+
   return (
     <div className="page-container">
       <header className="header">
@@ -29,19 +53,19 @@ const CreateCode_1 = () => {
       </header>
       <div className="content-layout">
         <div className="column-1">
-          <h2 className="challenge-title">Challenge#12</h2>
+          <h2 className="challenge-title">{challenge.title}</h2>
           <div className="challenge-info">
             <div className="info-item">
               <span className="info-label">시간제한</span>
-              <span className="info-value">1초</span>
+              <span className="info-value">{challenge.time_limit_ms ? `${challenge.time_limit_ms/1000}초` : "-"}</span>
             </div>
             <div className="info-item">
               <span className="info-label">메모리 제한</span>
-              <span className="info-value">256 MB</span>
+              <span className="info-value">{challenge.memory_limit_mb ? `${challenge.memory_limit_mb} MB` : "-"}</span>
             </div>
             <div className="info-item">
               <span className="info-label">정답비율</span>
-              <span className="info-value">22.699%</span>
+              <span className="info-value">-</span>
             </div>
           </div>
           <div className="tags-container">
@@ -54,17 +78,7 @@ const CreateCode_1 = () => {
               <div className="text-wrapper">📝 문제 상황</div>
             </div>
             <div className="div">
-              <p className="p">
-                알파벳 대문자로만 이루어진 문자열 S가 있고, 길이는 N이다. S[i]는
-                S의 i번째 문자를 나타내고, S[i:j]는 S[i], S[i+1], ..., S[j-1],
-                S[j]에 해당하는 S의 부분 문자열을 나타낸다. 이 문제에서 사용하는
-                문자열의 인덱스는 1부터 시작한다. U(i, j)는 S[i:j]에 나타나는
-                알파벳을 순서대로 정렬한 문자열을 의미하고, 중복해서 나타나는
-                알파벳은 제외한다. 예를 들어, S = "ABCBA" 인 경우 U(1, 3) =
-                "ABC"가 되며, U(2, 4) = "BC", U(1, 5) = "ABC"이다. 모든 1 ≤ i ≤
-                j ≤ N에 대하여 U(i, j)을 구했을 때 이 문자열 중에서 서로 다른
-                문자열이 모두 몇 개 있는지 구해보자.
-              </p>
+              <p className="p">{challenge.problem_statement}</p>
             </div>
           </div>
           <div className="frame">
@@ -72,21 +86,14 @@ const CreateCode_1 = () => {
               <div className="text-wrapper">🎯 입력</div>
             </div>
             <div className="div">
-              <p className="p">
-                첫째 줄에 테스트 케이스의 개수 T가 주어진다. 각 테스트 케이스는
-                한 줄로 이루어져 있고, 문자열 S가 주어진다.
-              </p>
+              <p className="p">{challenge.input_example}</p>
             </div>
           </div>
           <div className="frame">
             <div className="div-wrapper">
-              <div className="text-wrapper">📤 출력</div>
             </div>
             <div className="div">
-              <p className="p">
-                각 테스트 케이스에 대해서 U(i, j)에 서로 다른 문자열이 몇 개
-                있는지 출력한다.
-              </p>
+              <p className="p">{challenge.output_example}</p>
             </div>
           </div>
           <div className="frame">
@@ -94,20 +101,12 @@ const CreateCode_1 = () => {
               <div className="text-wrapper">📏 제한</div>
             </div>
             <div className="div">
-              <p className="p">
-                1 ≤ T ≤ 10
-                <br />1 ≤ N ≤ 100,000
-              </p>
+              <p className="p">난이도: {challenge.challenge_level}</p>
             </div>
           </div>
-          <div className="frame">
-            <div className="div-wrapper">
-              <div className="text-wrapper">📥 예제 입력 1</div>
-            </div>
-            <div className="div">
-              <p className="p">4</p>
-            </div>
-          </div>
+          <button onClick={() => navigate(`/create-code/${challenge.id}`)}>
+            코드 문제 풀기
+          </button>
         </div>
         <div className="column-2">
           <div className="column-2-top">

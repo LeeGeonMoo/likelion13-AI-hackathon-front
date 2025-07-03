@@ -1,16 +1,40 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import user from "../../dummy/user";
-import challenges from "../../dummy/challenges";
+// import challenges from "../../dummy/challenges";
 import { useNavigate } from "react-router-dom";
 
 export default function HeaderSection() {
   const navigate = useNavigate();
-  const firstChallenge = challenges[0];
+  const [firstChallenge, setFirstChallenge] = useState(null);
+  // user는 더미 데이터 사용
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // 챌린지 목록에서 첫 번째 챌린지 가져오기
+        const challengeRes = await fetch("http://localhost:8000/api/challenges/");
+        if (!challengeRes.ok) throw new Error("Failed to fetch challenges");
+        const challenges = await challengeRes.json();
+        setFirstChallenge(challenges[0] || null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error}</div>;
+  if (!firstChallenge) return <div>데이터 없음</div>;
 
   const handleChallengeClick = () => {
-    if (firstChallenge.challenge_type === "코드 생성") {
+    if (firstChallenge.challenge_type === "코드 생성" || firstChallenge.challenge_type === "CODE") {
       navigate("/create-code");
     } else {
       navigate(`/create-image/${firstChallenge.id}`);
