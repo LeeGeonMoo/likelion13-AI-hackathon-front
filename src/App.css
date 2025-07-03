@@ -28,7 +28,7 @@ body {
 
 .column-1 {
   width: 360px;
-  padding: 24px 25px 24px 24px;
+  padding: 8px 25px 8px 24px;
   box-sizing: border-box;
   background-color: transparent;
   border-right: 1px solid #e9ecef;
@@ -60,7 +60,7 @@ body {
   border-radius: 16px;
   display: inline-flex;
   flex-direction: row;
-  padding: 4px 10px;
+  padding: 4px 4px;
   position: relative;
   justify-content: center;
 }
@@ -78,8 +78,8 @@ body {
   align-items: flex-start;
   display: flex;
   flex-direction: column;
-  gap: 9px;
-  padding: 9px 0px 0px;
+  gap: 0px;
+  padding: 2px 0px 0px;
   position: relative;
 }
 
@@ -92,7 +92,7 @@ body {
   display: flex;
   flex: 0 0 auto;
   flex-direction: column;
-  padding: 0px 0px 9px;
+  padding: 0px 0px 2px;
   position: relative;
   width: 100%;
 }
@@ -118,6 +118,7 @@ body {
   flex-direction: column;
   position: relative;
   width: 100%;
+  padding-top: 1px;
 }
 
 .column-1 .frame .p {
@@ -330,4 +331,89 @@ body {
 .template-container {
   display: flex;
   justify-content: center;
+}
+
+/* 인기 이미지 섹션 스타일 */
+.popular-images-section {
+  margin-top: 24px;
+  padding: 0 24px;
+  background-color: #f8f9fa;
+}
+
+.popular-images-title {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  color: #212529;
+  margin: 0 0 16px 0;
+}
+
+.popular-images-container {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: #ced4da #f8f9fa;
+}
+
+.popular-images-container::-webkit-scrollbar {
+  height: 6px;
+}
+
+.popular-images-container::-webkit-scrollbar-track {
+  background: #f8f9fa;
+  border-radius: 3px;
+}
+
+.popular-images-container::-webkit-scrollbar-thumb {
+  background: #ced4da;
+  border-radius: 3px;
+}
+
+.popular-images-container::-webkit-scrollbar-thumb:hover {
+  background: #adb5bd;
+}
+
+.popular-image-item {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.popular-image-placeholder {
+  width: 297px;
+  height: 381px;
+  background-color: #495057;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.popular-image-placeholder:hover {
+  background-color: #343a40;
+}
+
+.heart-icon {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  font-size: 20px;
+  cursor: pointer;
+  color: #000000;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.heart-icon.liked {
+  color: #ff4343;
+}
+
+.heart-icon:hover {
+  transform: scale(1.1);
 }
