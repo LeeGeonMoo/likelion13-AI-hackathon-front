@@ -102,68 +102,36 @@ export default function ChallengeListSection() {
   ];
 
   return (
-    <div className="relative self-stretch w-full h-[581px]">
+    <div className="w-full grid grid-cols-3 gap-6">
       {challenges.map((challenge) => (
         <Card
           key={challenge.id}
-          className={`flex flex-col w-96 items-start justify-between p-[25px] absolute h-[278px] top-${challenge.position.top} left-${challenge.position.left} bg-white rounded-xl border border-solid border-[#e9ecef]`}
+          className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full"
         >
-          <CardHeader className="flex flex-col items-start pt-0 pb-3 px-0 relative self-stretch w-full flex-[0_0_auto] p-0">
-            <div className="flex items-center justify-between relative self-stretch w-full flex-[0_0_auto]">
-              <div className="inline-flex flex-col items-start relative flex-[0_0_auto]">
-                <div className="w-fit [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-[#2f9e44] text-[13px] leading-[normal] relative mt-[-1.00px] tracking-[0]">
-                  ● {challenge.status}
-                </div>
-              </div>
-
-              <Badge
-                className={`inline-flex flex-col items-start px-2.5 py-1 relative flex-[0_0_auto] ${challenge.categoryBg} rounded-2xl`}
-                variant="outline"
-              >
-                <div
-                  className={`w-fit [font-family:'Noto_Sans_KR-Medium',Helvetica] font-medium ${challenge.categoryColor} text-[13px] leading-[normal] relative mt-[-1.00px] tracking-[0]`}
-                >
-                  {challenge.category}
-                </div>
+          <CardHeader className="p-0 pb-3">
+            <div className="flex items-center justify-between w-full">
+              <div className="font-bold text-[#2f9e44] text-xs">● {challenge.status}</div>
+              <Badge className={`${challenge.categoryBg} ${challenge.categoryColor} text-xs`} variant="outline">
+                {challenge.category}
               </Badge>
             </div>
           </CardHeader>
 
-          <CardContent className="p-0 flex-1 w-full">
-            <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto] mt-[-3.38px]">
-              <div className="text-[#212529] text-2xl relative self-stretch mt-[-1.00px] [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold tracking-[0] leading-[normal]">
-                {challenge.title} <br />
-                {challenge.subtitle}
-              </div>
-            </div>
-
-            <div className="flex flex-col items-start pt-2 pb-4 px-0 relative self-stretch w-full flex-[0_0_auto] mt-[-3.38px]">
-              <div className="flex flex-col items-start relative self-stretch w-full flex-[0_0_auto]">
-                <div className="self-stretch [font-family:'Noto_Sans_KR-DemiLight',Helvetica] font-light text-[#495057] text-sm leading-[21px] relative mt-[-1.00px] tracking-[0]">
-                  {challenge.description}
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col items-start pt-0 pb-6 px-0 relative self-stretch w-full flex-[0_0_auto] mt-[-3.38px]">
-              <div className="flex items-start gap-2 relative self-stretch w-full flex-[0_0_auto]">
-                <Badge
-                  className={`inline-flex flex-col items-start px-2.5 py-1 relative self-stretch flex-[0_0_auto] ${challenge.difficultyColor} rounded-2xl`}
-                >
-                  <div className="w-fit [font-family:'Noto_Sans_KR-Bold',Helvetica] font-bold text-white text-[13px] leading-[normal] relative mt-[-1.00px] tracking-[0]">
-                    {challenge.difficulty}
-                  </div>
-                </Badge>
-              </div>
-            </div>
+          <CardContent className="p-0 flex-1">
+            <h3 className="font-bold text-2xl text-[#212529] mb-2 leading-snug">
+              {challenge.title} <br />
+              {challenge.subtitle}
+            </h3>
+            <p className="text-sm text-[#495057] mb-4">
+              {challenge.description}
+            </p>
+            <Badge className={`${challenge.difficultyColor} text-xs`} variant="solid">
+              {challenge.difficulty}
+            </Badge>
           </CardContent>
 
-          <CardFooter className="flex items-start gap-4 pt-[17px] pb-0 px-0 relative self-stretch w-full flex-[0_0_auto] mt-[-3.38px] border-t [border-top-style:solid] border-[#e9ecef] p-0">
-            <div className="inline-flex flex-col min-w-[111.8px] items-start relative self-stretch flex-[0_0_auto]">
-              <div className="w-fit [font-family:'Noto_Sans_KR-DemiLight',Helvetica] font-light text-[#495057] text-sm leading-[normal] relative mt-[-1.00px] tracking-[0]">
-                🧑 {challenge.participants}
-              </div>
-            </div>
+          <CardFooter className="p-0 pt-4 border-t border-[#e9ecef]">
+            <span className="text-sm text-[#495057]">🧑 {challenge.participants}</span>
           </CardFooter>
         </Card>
       ))}

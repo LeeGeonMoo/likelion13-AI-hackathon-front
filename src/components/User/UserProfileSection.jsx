@@ -30,11 +30,10 @@ export default function UserProfileSection() {
             <Button
               key={option.id}
               variant="ghost"
-              className={`h-auto pt-2.5 pb-3 px-4 rounded-md ${
-                option.isActive
+              className={`h-auto pt-2.5 pb-3 px-4 rounded-md ${option.isActive
                   ? "bg-[#1971c2] text-white [font-family:'Inter-Bold',Helvetica] font-bold"
                   : "bg-[#f1f3f5] text-[#495057] [font-family:'Inter-Regular',Helvetica] font-normal"
-              }`}
+                }`}
             >
               <span className="text-sm mt-[-1.00px]">{option.label}</span>
             </Button>
