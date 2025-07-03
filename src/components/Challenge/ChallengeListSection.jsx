@@ -22,7 +22,9 @@ export default function ChallengeListSection() {
         >
           <CardHeader className="p-0 pb-3">
             <div className="flex items-center justify-between w-full">
-              <div className="font-bold text-[#2f9e44] text-xs">{challenge.challenge_type}</div>
+              <div className="font-bold text-[#2f9e44] text-xs">
+                {challenge.challenge_type}
+              </div>
             </div>
           </CardHeader>
 
