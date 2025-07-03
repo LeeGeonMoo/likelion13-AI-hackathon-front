@@ -6,8 +6,8 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import React from "react";
-import challenges from "../../dummy/challenges";
+import React, { useEffect, useState } from "react";
+// import challenges from "../../dummy/challenges";
 
 // const useChallengeList = () => {
 //   const [challengeList, setChallengeList] = useState([])
@@ -25,8 +25,28 @@ import challenges from "../../dummy/challenges";
 
 export default function ChallengeListSection() {
   const navigate = useNavigate();
+  const [challenges, setChallenges] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  //const challengeList = useChallengeList();
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const res = await fetch("http://localhost:8000/api/challenges/");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data = await res.json();
+        setChallenges(data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchChallenges();
+  }, []);
+
+  if (loading) return <div>로딩 중...</div>;
+  if (error) return <div>에러: {error}</div>;
 
   return (
     <div className="w-full grid grid-cols-3 gap-6">
@@ -34,7 +54,13 @@ export default function ChallengeListSection() {
         <Card
           key={challenge.id}
           className="flex flex-col justify-between p-6 bg-white rounded-xl border border-solid border-[#e9ecef] h-full cursor-pointer"
-          onClick={() => navigate(`/create-image/${challenge.id}`)}
+          onClick={() => {
+            if (challenge.challenge_type === "코드 생성" || challenge.challenge_type === "CODE") {
+              navigate(`/create-code`);
+            } else {
+              navigate(`/create-image/${challenge.id}`);
+            }
+          }}
         >
           <CardHeader className="p-0 pb-3">
             <div className="flex items-center justify-between w-full">
