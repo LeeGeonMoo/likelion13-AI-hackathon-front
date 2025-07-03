@@ -1,4 +1,3 @@
-import "./App.css";
 import HomePage from "./routes/HomePage";
 import CreateImage_1 from "./routes/CreateImage_1";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
