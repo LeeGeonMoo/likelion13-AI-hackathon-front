@@ -2,15 +2,13 @@
   width: 1440px;
   height: 1178px;
   padding-bottom: 396px;
-  left: 0px;
-  top: 61px;
-  position: absolute;
   background: #f8f9fa;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 32px;
-  display: inline-flex;
+  display: flex;
+  position: relative;
 }
 
 /* 본문 wrapper */
