@@ -32,6 +32,14 @@ body {
   box-sizing: border-box;
   background-color: transparent;
   border-right: 1px solid #e9ecef;
+  height: calc(100vh - 61px);
+  overflow-y: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.column-1::-webkit-scrollbar {
+  display: none;
 }
 
 .column-1 * {
@@ -142,6 +150,7 @@ body {
   border-right: 1px solid #e9ecef;
 }
 
+/* CreateImage_1을 위한 기존 스타일 */
 .column-2 .input-section {
   padding: 16px;
   flex: 1;
@@ -171,6 +180,197 @@ body {
   display: flex;
   gap: 12px;
   justify-content: flex-end;
+}
+
+/* CreateCode_1을 위한 새로운 스타일 */
+.column-2-top {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: transparent;
+}
+
+.column-2-bottom {
+  flex: 1;
+  background-color: #f8f9fa;
+  display: flex;
+  flex-direction: column;
+}
+
+.prompt-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  background-color: transparent;
+}
+
+.prompt-label {
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  color: #6c757d;
+  margin-bottom: 8px;
+}
+
+.prompt-input-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.prompt-input {
+  width: 100%;
+  height: 100%;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  resize: none;
+  box-sizing: border-box;
+  background-color: white;
+}
+
+.prompt-input::placeholder {
+  color: #6c757d;
+}
+
+.button-section {
+  background-color: white;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #e9ecef;
+}
+
+.result-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+}
+
+.result-label {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  color: #212529;
+  margin-bottom: 12px;
+}
+
+.result-content {
+  flex: 1;
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #6c757d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.submit-section {
+  background-color: white;
+  padding: 16px;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  border-top: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+}
+
+/* 제출 결과 스타일 */
+.submission-result {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.execution-result-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.execution-result-title {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+
+.execution-result-box {
+  background-color: white;
+  border: 1px solid #e9ecef;
+  border-radius: 4px;
+  padding: 16px;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  color: #212529;
+  line-height: 1.5;
+}
+
+.execution-result-box p {
+  margin: 0 0 8px 0;
+}
+
+.execution-result-box p:last-child {
+  margin-bottom: 0;
+}
+
+.grading-result-section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.grading-result-title {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 18px;
+  font-weight: 700;
+  color: #212529;
+  margin: 0;
+}
+
+.grading-result-box {
+  background-color: transparent;
+  border: 1px solid #6c757d;
+  border-radius: 5px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.correct-answer {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 16px;
+  font-weight: 700;
+  color: #28a745;
+  margin: 0;
+}
+
+.memory-info,
+.time-info {
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 14px;
+  font-weight: 500;
+  color: #495057;
+  margin: 0;
+}
+
+.retry-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
 }
 
 .Frame54 {
@@ -245,7 +445,7 @@ body {
   text-align: center;
   font-family: "Inter", sans-serif;
   font-size: 16px;
-  color: #495057;
+  color: #adb5bd;
   line-height: 1.5;
 }
 
@@ -331,6 +531,37 @@ body {
 .template-container {
   display: flex;
   justify-content: center;
+}
+
+/* 챌린지 정보 스타일 */
+.challenge-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.info-label {
+  font-family: "Noto Sans KR-Medium", Helvetica;
+  font-size: 15px;
+  font-weight: 500;
+  color: #6c757d;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  font-family: "Noto Sans KR-Bold", Helvetica;
+  font-size: 14px;
+  font-weight: 700;
+  color: #212529;
 }
 
 /* 인기 이미지 섹션 스타일 */

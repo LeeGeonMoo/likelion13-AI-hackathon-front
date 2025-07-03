@@ -108,6 +108,7 @@ const CreateImage_1 = () => {
               AI가 생성한 이미지를 확인하세요.
             </div>
           ) : (
+            /* 이건 따로 컴포넌트로 빼가지고.. prop으로 넘겨서... data를 받았을 때랑 안받았을때랑 로딩 중 두가지 경우로 나눠서 처리해야함 */
             <>
               <div className="image-section">
                 <div className="image-placeholder">

@@ -9,8 +9,24 @@ import {
 import React from "react";
 import challenges from "../../dummy/challenges";
 
+// const useChallengeList = () => {
+//   const [challengeList, setChallengeList] = useState([])
+
+//   useEffect(()=>{
+//     const fetchChallengeList = async () => {
+//       //some fetch Logic
+//       setChallengeList(challenges)
+//     }
+
+//   },[])
+
+//   return challengeList
+// }
+
 export default function ChallengeListSection() {
   const navigate = useNavigate();
+
+  //const challengeList = useChallengeList();
 
   return (
     <div className="w-full grid grid-cols-3 gap-6">
