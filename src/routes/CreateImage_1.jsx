@@ -1,10 +1,11 @@
 import "../App.css";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import challenges from "../dummy/challenges";
 
 const CreateImage_1 = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const challenge = challenges.find((c) => String(c.id) === id);
 
   if (!challenge) return <div>문제를 찾을 수 없습니다.</div>;
@@ -20,7 +21,12 @@ const CreateImage_1 = () => {
     <div className="page-container">
       <header className="header">
         <div className="frame">
-          <h3>{challenge.title}</h3>
+          <h3
+            style={{ cursor: "pointer" }}
+            onClick={() => navigate("/")}
+          >
+            Prompteer
+          </h3>
         </div>
       </header>
       <div className="content-layout">
