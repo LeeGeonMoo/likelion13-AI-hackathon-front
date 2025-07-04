@@ -16,6 +16,7 @@ const CreateImage_1 = () => {
   const [imageLoading, setImageLoading] = useState(false);
   const [imageError, setImageError] = useState(null);
   const [generatedImage, setGeneratedImage] = useState(null);
+  const [popularImages, setPopularImages] = useState([]); // 인기 이미지 상태 추가
 
   useEffect(() => {
     const fetchChallenge = async () => {
@@ -31,8 +32,22 @@ const CreateImage_1 = () => {
         setLoading(false);
       }
     };
+
     fetchChallenge();
   }, [id]);
+
+  const fetchPopularImages = async () => {
+    console.log("Attempting to fetch popular images for challenge ID:", id); // Debugging line
+    try {
+      const res = await fetch(`http://localhost:8000/api/challenges/${id}/images/`);
+      if (!res.ok) throw new Error("Failed to fetch popular images");
+      const data = await res.json();
+      setPopularImages(data.images); // 백엔드 응답 구조에 따라 수정
+    } catch (err) {
+      console.error("Error fetching popular images:", err);
+      // 에러 처리 (예: 사용자에게 메시지 표시)
+    }
+  };
 
   if (loading) return <div>로딩 중...</div>;
   if (error) return <div>에러: {error}</div>;
@@ -42,7 +57,7 @@ const CreateImage_1 = () => {
     setImageLoading(true);
     setImageError(null);
     setGeneratedImage(null);
-    setIsTestExecuted(true);
+    setIsTestExecuted(true); // 테스트 실행 시 isTestExecuted를 true로 설정
     try {
       const res = await fetch("http://localhost:8000/api/generate-image/", {
         method: "POST",
@@ -57,6 +72,7 @@ const CreateImage_1 = () => {
       const data = await res.json();
       if (data.image_base64) {
         setGeneratedImage(data.image_base64);
+        fetchPopularImages(); // 이미지 생성 성공 후 인기 이미지 불러오기
       } else {
         setImageError(data.error || "이미지 생성 실패");
       }
@@ -71,6 +87,7 @@ const CreateImage_1 = () => {
     setIsTestExecuted(false);
     setPromptText("");
     setLikedImages(new Set());
+    setPopularImages([]); // 리셋 시 인기 이미지도 초기화
   };
 
   const handleHeaderClick = () => {
@@ -88,20 +105,6 @@ const CreateImage_1 = () => {
       return newSet;
     });
   };
-
-  // 인기 이미지 데이터 (10개)
-  const popularImages = [
-    { id: 1, title: "http://127.0.0.1:8000/media/generated_image_1751571539.png" },
-    { id: 2, title: "http://127.0.0.1:8000/media/generated_image_1751567853.png" },
-    { id: 3, title: "http://127.0.0.1:8000/media/generated_image_1751567953.png" },
-    { id: 4, title: "http://127.0.0.1:8000/media/generated_image_1751575022.png" },
-    { id: 5, title: "http://127.0.0.1:8000/media/generated_image_1751575059.png" },
-    { id: 6, title: "http://127.0.0.1:8000/media/generated_image_1751583762.png" },
-    { id: 7, title: "인기 이미지 7" },
-    { id: 8, title: "인기 이미지 8" },
-    { id: 9, title: "인기 이미지 9" },
-    { id: 10, title: "인기 이미지 10" },
-  ];
 
   return (
     <div className="page-container">
@@ -189,7 +192,7 @@ const CreateImage_1 = () => {
           <div className="popular-images-container">
             {popularImages.map((image) => (
               <div key={image.id} className="popular-image-item">
-                <img src={image.title} alt="인기 이미지" className="popular-image-placeholder" />
+                <img src={image.image_url} alt="인기 이미지" className="popular-image-placeholder" />
                 <div
                   className={`heart-icon ${
                     likedImages.has(image.id) ? "liked" : ""

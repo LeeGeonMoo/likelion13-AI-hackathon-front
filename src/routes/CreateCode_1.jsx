@@ -1,6 +1,8 @@
 import "../App.css";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { solarizedlight } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 const CreateCode_1 = () => {
   const navigate = useNavigate();
@@ -14,13 +16,41 @@ const CreateCode_1 = () => {
   const [apiLoading, setApiLoading] = useState(false);
   const [token, setToken] = useState("");
   const [currentCode, setCurrentCode] = useState("");
+  const [submissionResult, setSubmissionResult] = useState(null);
 
   const handleHeaderClick = () => {
     navigate("/");
   };
 
-  const handleSubmit = () => {
-    setIsSubmitted(true);
+  const handleSubmit = async () => {
+    setApiLoading(true);
+    try {
+      const response = await fetch("http://localhost:8000/api/score-code/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          challenge_id: challenge.id,
+          user_code: result.replace(/```(\w+)?\n([\s\S]*?)\n```/, "$2").trim(),
+        }),
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Submission error:", errorData);
+        alert("제출 실패: " + (errorData.detail || response.status));
+        setApiLoading(false);
+        return;
+      }
+      const data = await response.json();
+      console.log("Submission result:", data);
+      setSubmissionResult(data);
+      setIsSubmitted(true);
+    } catch (error) {
+      console.error("Submission failed:", error);
+      alert("제출 중 에러가 발생했습니다.");
+    }
+    setApiLoading(false);
   };
 
   const handleRetry = () => {
@@ -170,7 +200,7 @@ const CreateCode_1 = () => {
                     onClick={handleRun}
                     disabled={apiLoading}
                   >
-                    {apiLoading ? "실행 중..." : "실행(예제 테스트)"}
+                    {apiLoading ? "실행 중..." : "코드 생성"}
                   </div>
                 </div>
               </div>
@@ -181,17 +211,19 @@ const CreateCode_1 = () => {
               <div className="result-label">실행 결과</div>
               <div className="result-content">
                 {result ? (
-                  <pre
-                    style={{
-                      background: "#f5f5f5",
-                      padding: "16px",
-                      borderRadius: "8px",
+                  <SyntaxHighlighter
+                    language={result.match(/```(\w+)\n/)?.[1] || "text"}
+                    style={solarizedlight}
+                    customStyle={{
+                      background: "none",
+                      padding: "0",
+                      fontSize: "16px",
                       whiteSpace: "pre-wrap",
                       wordBreak: "break-all",
                     }}
                   >
-                    {result}
-                  </pre>
+                    {result.replace(/```(\w+)?\n([\s\S]*?)\n```/, "$2").trim()}
+                  </SyntaxHighlighter>
                 ) : isSubmitted ? (
                   "제출 완료"
                 ) : (
@@ -220,18 +252,33 @@ const CreateCode_1 = () => {
               <div className="execution-result-section">
                 <h3 className="execution-result-title">실행 결과</h3>
                 <div className="execution-result-box">
-                  <p>4</p>
-                  <p>3</p>
-                  <p>2</p>
-                  <p>1</p>
+                  {submissionResult && submissionResult.results.map((res) => (
+                    <p key={res.test_case_id}>
+                      테스트 {res.test_case_id}: {res.passed ? "성공" : "실패"}
+                      {res.stdout && ` (출력: ${res.stdout.trim()})`}
+                      {res.stderr && ` (에러: ${res.stderr.trim()})`}
+                    </p>
+                  ))}
                 </div>
               </div>
               <div className="grading-result-section">
                 <h3 className="grading-result-title">채점 결과</h3>
                 <div className="grading-result-box">
-                  <p className="correct-answer">정답입니다!</p>
-                  <p className="memory-info">메모리: 34024 KB</p>
-                  <p className="time-info">시간: 68 ms</p>
+                  {submissionResult && (
+                    <>
+                      <p className="correct-answer">
+                        {submissionResult.total_passed === submissionResult.total_test_cases
+                          ? "정답입니다!"
+                          : `일부 테스트 실패 (${submissionResult.total_passed}/${submissionResult.total_test_cases})`}
+                      </p>
+                      {submissionResult.results[0] && (
+                        <>
+                          <p className="memory-info">메모리: {submissionResult.results[0].max_memory_kb} KB</p>
+                          <p className="time-info">시간: {Math.round(submissionResult.results[0].elapsed_time * 1000)} ms</p>
+                        </>
+                      )}
+                    </>
+                  )}
                 </div>
               </div>
               <div className="retry-section">
